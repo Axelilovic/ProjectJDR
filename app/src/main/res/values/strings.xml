@@ -2,6 +2,10 @@
     <string name="app_name">RPG Helper</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_diceroll">Diceroll</string>
+    <string name="title_quickrules">Quick Rules</string>
+    <string name="title_charactersheets">Character Sheets</string>
+    <string name="title_soundmanager">Sound Manager</string>
+    <string name="title_generators">Generators</string>
+    <string name="title_chat">Chat</string>
 </resources>
