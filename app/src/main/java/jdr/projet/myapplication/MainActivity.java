@@ -93,13 +93,15 @@ public class MainActivity extends AppCompatActivity implements DicerollFragment.
         Enumerations.UserType ptype = (Enumerations.UserType)intent.getSerializableExtra("PlayerType");
         switch (ptype){
             case PLAYER:
-                mTextMessage.setText("ISPLAYER");
+                //mTextMessage.setText("ISPLAYER");
+                mTextMessage.setText("");
                 break;
             case GAMEMASTER:
-                mTextMessage.setText("ISGAMEMASTER");
+                //mTextMessage.setText("ISGAMEMASTER");
+                mTextMessage.setText("");
                 break;
             default:
-                mTextMessage.setText("ISNONE");
+                //mTextMessage.setText("ISNONE");
                 break;
         }
         // Instantiate fragments

@@ -1,13 +1,42 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="jdr.projet.myapplication.Fragments.DicerollFragment">
+    tools:context="jdr.projet.myapplication.Fragments.DicerollFragment"
+    android:id="@+id/layout">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="DICEROLL FRAGMENT" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/buttonRoll"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_rollDice" />
+
+    <Spinner
+        android:id="@+id/diceType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/dice_types_array"/>
+
+    <EditText
+        android:id="@+id/diceCount"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="1" />
+
+    <TextView
+        android:id="@+id/diceResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/roll_prompt" />
+
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_delete" />
+
+</LinearLayout>

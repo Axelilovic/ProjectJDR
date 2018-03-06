@@ -8,4 +8,15 @@
     <string name="title_soundmanager">Sound Manager</string>
     <string name="title_generators">Generators</string>
     <string name="title_chat">Chat</string>
+    <string name="btn_rollDice">Roll</string>
+    <string name="btn_delete">Delete</string>
+    <string name="roll_prompt">Click Roll Button</string>
+    <string-array name="dice_types_array">
+        <item>D4</item>
+        <item>D8</item>
+        <item>D10</item>
+        <item>D12</item>
+        <item>D20</item>
+        <item>D100</item>
+    </string-array>
 </resources>
