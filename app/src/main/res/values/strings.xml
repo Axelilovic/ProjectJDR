@@ -11,9 +11,9 @@
     <string name="btn_rollDice">Roll</string>
     <string name="btn_delete">Delete</string>
     <string name="roll_prompt">Click Roll Button</string>
-    <string name="play"><![CDATA[|>]]></string>
+    <string name="play">|></string>
     <string name="rewind"><![CDATA[<<]]></string>
-    <string name="forward"><![CDATA[>>]]></string>
+    <string name="forward">>></string>
     <string name="pause">||</string>
     <string-array name="dice_types_array">
         <item>D4</item>

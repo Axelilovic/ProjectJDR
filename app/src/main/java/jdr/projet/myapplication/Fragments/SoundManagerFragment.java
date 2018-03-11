@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import jdr.projet.myapplication.R;
@@ -42,13 +43,15 @@ public class SoundManagerFragment extends Fragment implements AdapterView.OnItem
 
     private OnFragmentInteractionListener mListener;
 
+    private Button buttonR, buttonF, buttonPlay, buttonPause, buttonStop;
+
     public SoundManagerFragment() {
         // Required empty public constructor
     }
 
     MediaPlayer mMediaPlayer;
+    private int resumePosition;
     HashMap<Integer, Integer> mHashMap= null;
-    SoundPool mSoundPool;
     int soundId = 1;
 
     /**
@@ -95,15 +98,22 @@ public class SoundManagerFragment extends Fragment implements AdapterView.OnItem
     }
 
     private void initSoundManagerController(){
-        final Button buttonF=(Button) getView().findViewById(R.id.buttonF);
-        buttonF.setEnabled(false);
-        final Button buttonR=(Button) getView().findViewById(R.id.buttonR);
-        buttonR.setEnabled(false);
+        buttonF=(Button) getView().findViewById(R.id.buttonF);
+        buttonR=(Button) getView().findViewById(R.id.buttonR);
+        buttonPause=(Button) getView().findViewById(R.id.buttonPause);
+        buttonPlay=(Button) getView().findViewById(R.id.buttonPlay);
+        buttonStop=(Button) getView().findViewById(R.id.buttonStop);
 
         mHashMap = new HashMap<>();
         mHashMap.put(1, R.raw.ambience);
         mHashMap.put(2, R.raw.hell);
         mHashMap.put(3, R.raw.town);
+
+        buttonStop.setOnClickListener(this);
+        buttonPlay.setOnClickListener(this);
+        buttonPause.setOnClickListener(this);
+        buttonF.setOnClickListener(this);
+        buttonR.setOnClickListener(this);
 
     }
 
@@ -111,34 +121,52 @@ public class SoundManagerFragment extends Fragment implements AdapterView.OnItem
     public void onClick(View v){
         switch (v.getId()){
             case R.id.buttonF:
-                soundId++;
-                Toast.makeText(getContext(), "Next sound",Toast.LENGTH_SHORT).show();
-                if (soundId < 3) {
+                soundId+=1;
+                mMediaPlayer.reset();
+                if (soundId > 3) {
                     soundId = 1;
                 }
+                Toast.makeText(getContext(), "Next sound " + soundId,Toast.LENGTH_SHORT).show();
+                if (mMediaPlayer!=null){
+                    mMediaPlayer = MediaPlayer.create(getContext(), mHashMap.get(soundId));
+                    mMediaPlayer.start();
+                }
+                break;
             case R.id.buttonR:
-                soundId --;
-                Toast.makeText(getContext(), "Previous sound",Toast.LENGTH_SHORT).show();
-                if (soundId > 1) {
+                soundId -=1;
+                mMediaPlayer.reset();
+                if (soundId < 1) {
                     soundId = 3;
                 }
+                Toast.makeText(getContext(), "Previous sound " + soundId,Toast.LENGTH_SHORT).show();
+                if (mMediaPlayer!=null){
+                    mMediaPlayer = MediaPlayer.create(getContext(), mHashMap.get(soundId));
+                    mMediaPlayer.start();
+                }
+                break;
             case R.id.buttonPlay:
                 Toast.makeText(getContext(), "Playing sound",Toast.LENGTH_SHORT).show();
-                mMediaPlayer = MediaPlayer.create(getContext(), mHashMap.get(soundId));
-                mMediaPlayer.setLooping(true);
-                mMediaPlayer.start();
+                if (mMediaPlayer==null) {
+                    mMediaPlayer = MediaPlayer.create(getContext(), mHashMap.get(soundId));
+                } else {
+                    mMediaPlayer.seekTo(resumePosition);
+                    mMediaPlayer.start();
+                }
+                break;
             case R.id.buttonPause:
                 Toast.makeText(getContext(), "Pausing sound",Toast.LENGTH_SHORT).show();
                 if (mMediaPlayer!=null && mMediaPlayer.isPlaying()) {
                     mMediaPlayer.pause();
+                    resumePosition = mMediaPlayer.getCurrentPosition();
                 }
+                break;
             case R.id.buttonStop:
                 Toast.makeText(getContext(), "Stopping sound",Toast.LENGTH_SHORT).show();
+                if (mMediaPlayer == null) return;
                 if (mMediaPlayer!=null) {
                     mMediaPlayer.stop();
-                    mMediaPlayer.release();
-                    mMediaPlayer = null;
                 }
+                break;
         }
     }
 

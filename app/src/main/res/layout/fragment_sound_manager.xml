@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -9,44 +9,31 @@
 
     <Button
         android:id="@+id/buttonF"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:text="@string/forward"
-        android:layout_alignTop="@+id/buttonPause"
-        android:layout_toStartOf="@+id/buttonPause"
-        android:layout_toLeftOf="@+id/buttonPause"/>
+        android:text="@string/forward" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pause"
         android:id="@+id/buttonPause"
-        android:layout_alignTop="@+id/buttonStop"
-        android:layout_toLeftOf="@+id/buttonStop"
-        android:layout_toStartOf="@+id/buttonStop" />
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="@string/pause" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stop"
         android:id="@+id/buttonStop"
-        android:layout_centerInParent="true" />
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="Stop" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/play"
         android:id="@+id/buttonPlay"
-        android:layout_alignTop="@+id/buttonStop"
-        android:layout_toRightOf="@+id/buttonStop"
-        android:layout_toEndOf="@+id/buttonStop" />
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="@string/play" />
 
     <Button
         android:id="@+id/buttonR"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/buttonPlay"
-        android:layout_toEndOf="@+id/buttonPlay"
-        android:layout_toRightOf="@+id/buttonPlay"
         android:text="@string/rewind" />
-</RelativeLayout>
+</LinearLayout>
