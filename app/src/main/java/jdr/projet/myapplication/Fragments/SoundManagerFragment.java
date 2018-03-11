@@ -1,12 +1,24 @@
 package jdr.projet.myapplication.Fragments;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.HashMap;
 
 import jdr.projet.myapplication.R;
 
@@ -18,7 +30,7 @@ import jdr.projet.myapplication.R;
  * Use the {@link SoundManagerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SoundManagerFragment extends Fragment {
+public class SoundManagerFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -33,6 +45,11 @@ public class SoundManagerFragment extends Fragment {
     public SoundManagerFragment() {
         // Required empty public constructor
     }
+
+    MediaPlayer mMediaPlayer;
+    HashMap<Integer, Integer> mHashMap= null;
+    SoundPool mSoundPool;
+    int soundId = 1;
 
     /**
      * Use this factory method to create a new instance of
@@ -58,6 +75,78 @@ public class SoundManagerFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        initSoundManagerController();
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void initSoundManagerController(){
+        final Button buttonF=(Button) getView().findViewById(R.id.buttonF);
+        buttonF.setEnabled(false);
+        final Button buttonR=(Button) getView().findViewById(R.id.buttonR);
+        buttonR.setEnabled(false);
+
+        mHashMap = new HashMap<>();
+        mHashMap.put(1, R.raw.ambience);
+        mHashMap.put(2, R.raw.hell);
+        mHashMap.put(3, R.raw.town);
+
+    }
+
+    @Override
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.buttonF:
+                soundId++;
+                Toast.makeText(getContext(), "Next sound",Toast.LENGTH_SHORT).show();
+                if (soundId < 3) {
+                    soundId = 1;
+                }
+            case R.id.buttonR:
+                soundId --;
+                Toast.makeText(getContext(), "Previous sound",Toast.LENGTH_SHORT).show();
+                if (soundId > 1) {
+                    soundId = 3;
+                }
+            case R.id.buttonPlay:
+                Toast.makeText(getContext(), "Playing sound",Toast.LENGTH_SHORT).show();
+                mMediaPlayer = MediaPlayer.create(getContext(), mHashMap.get(soundId));
+                mMediaPlayer.setLooping(true);
+                mMediaPlayer.start();
+            case R.id.buttonPause:
+                Toast.makeText(getContext(), "Pausing sound",Toast.LENGTH_SHORT).show();
+                if (mMediaPlayer!=null && mMediaPlayer.isPlaying()) {
+                    mMediaPlayer.pause();
+                }
+            case R.id.buttonStop:
+                Toast.makeText(getContext(), "Stopping sound",Toast.LENGTH_SHORT).show();
+                if (mMediaPlayer!=null) {
+                    mMediaPlayer.stop();
+                    mMediaPlayer.release();
+                    mMediaPlayer = null;
+                }
+        }
+    }
+
+    public void onStop() {
+        super.onStop();
+        if (mMediaPlayer!=null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
         }
     }
 
