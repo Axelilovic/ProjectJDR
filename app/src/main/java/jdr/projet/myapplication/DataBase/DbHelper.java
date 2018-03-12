@@ -40,6 +40,8 @@ public class DbHelper extends SQLiteOpenHelper {
         sb.append(" TEXT,");
         sb.append(GameEntries.EXTENSION);
         sb.append(" TEXT");
+        sb.append(GameEntries.COLUMN_TIMESTAMP);
+        sb.append(" TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
         sb.append(");");
 
         db.execSQL(sb.toString());

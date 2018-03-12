@@ -1,5 +1,6 @@
 package jdr.projet.myapplication.Fragments;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,12 +12,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import jdr.projet.myapplication.DataBase.DbContract;
 import jdr.projet.myapplication.DataBase.DbHelper;
+import jdr.projet.myapplication.GameListAdapter;
 import jdr.projet.myapplication.R;
 
 /**
@@ -41,6 +47,7 @@ public class CharacterSheetsFragment extends Fragment implements AdapterView.OnI
 
     SQLiteDatabase db;
     FloatingActionButton fab;
+    GameListAdapter mAdapter;
 
     AddNewCharacterSheetFragment addNewCharacterSheetFragment;
 
@@ -92,6 +99,12 @@ public class CharacterSheetsFragment extends Fragment implements AdapterView.OnI
     }
 
     public void initCharacterSheets(){
+        RecyclerView gameRecyclerView;
+
+        gameRecyclerView = (RecyclerView) this.getView().findViewById(R.id.all_game_list_view);
+
+        gameRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         final DbHelper dbHelper = new DbHelper(getContext());
         db = dbHelper.getWritableDatabase();
 
@@ -99,24 +112,67 @@ public class CharacterSheetsFragment extends Fragment implements AdapterView.OnI
 
         final Context context = getContext();
 
-        fab = (FloatingActionButton) getView().findViewById(R.id.fab);
+        fab = (FloatingActionButton) getView().findViewById(R.id.add_new_game_view_button);
         fab.setOnClickListener((View.OnClickListener) this);
 
         addNewCharacterSheetFragment = new AddNewCharacterSheetFragment();
+
+        //Cursor cursor = getAllGame();
+
+        mAdapter = new GameListAdapter(getContext(), cursor);
+
+        gameRecyclerView.setAdapter(mAdapter);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                            ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder
+                , RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            long id = (long) viewHolder.itemView.getTag();
+            removeHero(id);
+            mAdapter.swapCursor(getAllGame());
+        }
+
+    }).attachToRecyclerView(gameRecyclerView);
+}
+
+    private Cursor getAllGame() {
+        return db.query(
+                DbContract.GameEntries.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                DbContract.GameEntries.COLUMN_TIMESTAMP
+        );
+    }
+
+    private boolean removeHero(long id) {
+        return db.delete(DbContract.GameEntries.TABLE_NAME,
+                DbContract.GameEntries._ID + "=" + id, null) > 0;
     }
 
     @Override
+
     public void onDestroy() {
         db.close();
         super.onDestroy();
     }
 
     public void onClick(View v) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction;
+
         switch (v.getId()) {
-            case R.id.fab:
-                fragmentTransaction = fragmentManager.beginTransaction();
+            case R.id.add_new_game_view_button:
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.currentFragmentLayout, addNewCharacterSheetFragment);
                 fragmentTransaction.commit();
                 break;

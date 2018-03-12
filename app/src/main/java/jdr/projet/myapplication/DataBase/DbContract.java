@@ -17,5 +17,6 @@ public class DbContract {
         public static final String NAME = "Name";
         public static final String EDITION = "Edition";
         public static final String EXTENSION = "Extension";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
     }
 }

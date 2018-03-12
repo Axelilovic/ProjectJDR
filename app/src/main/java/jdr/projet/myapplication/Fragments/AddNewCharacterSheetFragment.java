@@ -114,13 +114,12 @@ public class AddNewCharacterSheetFragment extends Fragment implements AdapterVie
     }
 
     public void onClick(View v) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction;
         switch (v.getId()) {
             case R.id.validation:
                 Game entree1 = new Game(editName.getText().toString(),editEdition.getText().toString(),editExtension.getText().toString());
                 dbHelper.addGame(db, entree1);
-                fragmentTransaction = fragmentManager.beginTransaction();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.currentFragmentLayout, characterSheetsFragment);
                 fragmentTransaction.commit();
                 break;
