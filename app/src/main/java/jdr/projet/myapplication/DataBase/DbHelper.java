@@ -39,7 +39,8 @@ public class DbHelper extends SQLiteOpenHelper {
         sb.append(GameEntries.EDITION);
         sb.append(" TEXT,");
         sb.append(GameEntries.EXTENSION);
-        sb.append(" TEXT,");
+        sb.append(" TEXT");
+        sb.append(");");
 
         db.execSQL(sb.toString());
 
