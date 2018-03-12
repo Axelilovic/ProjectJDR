@@ -15,9 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 
+import jdr.projet.myapplication.Classes.Game;
 import jdr.projet.myapplication.DataBase.DbHelper;
 import jdr.projet.myapplication.R;
+import jdr.projet.myapplication.Fragments.AddNewCharacterSheetFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +31,7 @@ import jdr.projet.myapplication.R;
  * Use the {@link CharacterSheetsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CharacterSheetsFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class AddNewCharacterSheetFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -40,11 +44,14 @@ public class CharacterSheetsFragment extends Fragment implements AdapterView.OnI
     private OnFragmentInteractionListener mListener;
 
     SQLiteDatabase db;
-    FloatingActionButton fab;
+    EditText editName;
+    EditText editEdition;
+    EditText editExtension;
+    Button valider;
+    DbHelper dbHelper;
+    CharacterSheetsFragment characterSheetsFragment;
 
-    AddNewCharacterSheetFragment addNewCharacterSheetFragment;
-
-    public CharacterSheetsFragment() {
+    public AddNewCharacterSheetFragment() {
         // Required empty public constructor
     }
 
@@ -87,37 +94,34 @@ public class CharacterSheetsFragment extends Fragment implements AdapterView.OnI
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        initCharacterSheets();
+        initAddNewCharacterSheet();
         super.onViewCreated(view, savedInstanceState);
     }
 
-    public void initCharacterSheets(){
-        final DbHelper dbHelper = new DbHelper(getContext());
+    public void initAddNewCharacterSheet(){
+        dbHelper = new DbHelper(getContext());
         db = dbHelper.getWritableDatabase();
 
-        Cursor cursor = dbHelper.getCursorGame(db);
+        valider = (Button) getView().findViewById(R.id.validation);
 
-        final Context context = getContext();
+        editName = (EditText) getView().findViewById(R.id.editGameName);
+        editEdition = (EditText) getView().findViewById(R.id.editEdition);
+        editExtension = (EditText) getView().findViewById(R.id.editExtension);
 
-        fab = (FloatingActionButton) getView().findViewById(R.id.fab);
-        fab.setOnClickListener((View.OnClickListener) this);
+        valider.setOnClickListener((View.OnClickListener) this);
 
-        addNewCharacterSheetFragment = new AddNewCharacterSheetFragment();
-    }
-
-    @Override
-    public void onDestroy() {
-        db.close();
-        super.onDestroy();
+        characterSheetsFragment = new CharacterSheetsFragment();
     }
 
     public void onClick(View v) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction;
         switch (v.getId()) {
-            case R.id.fab:
+            case R.id.validation:
+                Game entree1 = new Game(editName.getText().toString(),editEdition.getText().toString(),editExtension.getText().toString());
+                dbHelper.addGame(db, entree1);
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.currentFragmentLayout, addNewCharacterSheetFragment);
+                fragmentTransaction.replace(R.id.currentFragmentLayout, characterSheetsFragment);
                 fragmentTransaction.commit();
                 break;
         }

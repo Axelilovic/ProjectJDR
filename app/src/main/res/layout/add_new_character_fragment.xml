@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/gameName"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:fontFamily="sans-serif"
+            android:text="Game Name"
+            android:textSize="15sp"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/editGameName"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/edition"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/gameName"
+            android:fontFamily="sans-serif"
+            android:text="Edition"
+            android:textSize="15sp"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/editEdition"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/editGameName" />
+
+        <TextView
+            android:id="@+id/extension"
+            android:layout_width="175dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/edition"
+            android:layout_toStartOf="@+id/editExtension"
+            android:fontFamily="sans-serif"
+            android:text="Extension"
+            android:textSize="15sp"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/editExtension"
+            android:layout_width="175dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/editEdition" />
+
+        <Button
+            android:id="@+id/validation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/extension"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="47dp"
+            android:text="Valider" />
+    </RelativeLayout>
+
+
+</LinearLayout>
